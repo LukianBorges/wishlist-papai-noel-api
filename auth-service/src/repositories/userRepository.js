@@ -1,8 +1,12 @@
 const pool = require('../database');
 
-async function getByEmail(email) {
-  const [rows] = await pool.query('SELECT * FROM users WHERE email = ? LIMIT 1', [email]);
-  return rows[0] || null;
+async function findByEmail(email) {
+    const [rows] = await pool.query(
+        'SELECT * FROM users WHERE email = ?',
+        [email]
+    );
+
+    return rows[0];
 }
 
-module.exports = { getByEmail };
+module.exports = { findByEmail };

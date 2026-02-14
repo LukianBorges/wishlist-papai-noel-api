@@ -11,20 +11,27 @@ async function getAll(req, res) {
 }
 
 async function create(req, res) {
-    try {
-        const { user_id, titulo, descricao } = req.body;
+  try {
+    const user_id = req.user?.user_id;
+    const { titulo, descricao } = req.body;
 
-        if (!user_id || !titulo) {
-            return res.status(400).json({ error: 'user_id e titulo são obrigatórios' });
-        }
-
-        const wish = await repository.create(user_id, titulo, descricao);
-        res.status(201).json(wish);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro ao criar desejo' });
+    if (!user_id) {
+      return res.status(401).json({ error: 'Token inválido (sem user_id)' });
     }
+
+    if (!titulo) {
+      return res.status(400).json({ error: 'titulo é obrigatório' });
+    }
+
+    const wish = await repository.create(user_id, titulo, descricao);
+    res.status(201).json(wish);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao criar desejo' });
+  }
 }
+
+
 
 async function remove(req, res) {
     try {
