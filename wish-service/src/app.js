@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'Wish Service OK' });
+  res.json({ status: 'Wish Service OK v2 OK' });
 });
 
 app.get('/desejos', WishController.getAll);

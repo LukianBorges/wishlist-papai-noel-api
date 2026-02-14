@@ -11,4 +11,4 @@ app.post('/users', UserController.create);
 app.put('/users/:id', UserController.update);
 app.delete('/users/:id', UserController.remove);
 
-app.listen(3001, '0.0.0.0', () => console.log('User Service rodando na porta 3001 🚀'));
+app.listen(3001, '0.0.0.0', () => console.log('User Service rodando na porta 3001'));
