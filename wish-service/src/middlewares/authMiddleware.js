@@ -7,17 +7,26 @@ function authMiddleware(req, res, next) {
     return res.status(401).json({ error: 'Token não informado' });
   }
 
-  const parts = authHeader.split(' ');
-  if (parts.length !== 2 || parts[0] !== 'Bearer') {
-    return res.status(401).json({ error: 'Formato do token inválido' });
+  const [type, token] = authHeader.split(' ');
+
+  if (type !== 'Bearer' || !token) {
+    return res.status(401).json({ error: 'Formato do token inválido (use: Bearer TOKEN)' });
   }
 
-  const token = parts[1];
+  if (!process.env.JWT_SECRET) {
+    return res.status(500).json({ error: 'JWT_SECRET não configurado no serviço' });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+
+    if (!decoded?.user_id) {
+      return res.status(401).json({ error: 'Token inválido (sem user_id)' });
+    }
+
     req.user = decoded;
-    next();
+    return next();
   } catch (err) {
     return res.status(401).json({ error: 'Token inválido' });
   }
