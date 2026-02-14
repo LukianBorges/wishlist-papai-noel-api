@@ -12,4 +12,4 @@ app.post('/desejos', authMiddleware, WishController.create);
 app.put('/desejos/:id', authMiddleware, WishController.update);
 app.delete('/desejos/:id', authMiddleware, WishController.remove);
 
-app.listen(3000, '0.0.0.0', () => console.log('Wish Service rodando na porta 3000 🚀'));
+app.listen(3000, '0.0.0.0', () => console.log('Wish Service rodando na porta 3000'));
